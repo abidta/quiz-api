@@ -15,7 +15,7 @@ export const verifyToken = (
     }
 
     const verified = jwt.verify(token as string, JWT_SECRET)
-    req.app.locals.user = verified._id
+    req.app.locals.user = verified.id
     next()
   } catch (error) {
     next(error)

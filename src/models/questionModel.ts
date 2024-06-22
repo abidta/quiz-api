@@ -50,18 +50,16 @@ const userQuizResult = new Schema({
     ref: 'User',
   },
   quizzes: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Quiz',
-      required: true,
-    },
+    new Schema({
+      quizId: { type: Schema.Types.ObjectId, required: true },
+      scorePercentage: {
+        type: Number,
+        required: true,
+      },
+      completed: { type: Number, default: 0 },
+      failed: { type: Number, default: 0 },
+    }),
   ],
-  scorePercentage: {
-    type: Number,
-    required: true,
-  },
-  completed: { type: Number, default: 0 },
-  failed: { type: Number, default: 0 },
 })
 // const QuizOptions = mongoose.model('QuizOptions', optionSchema)
 const Quiz = mongoose.model('Quiz', quizSchema)
