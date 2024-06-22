@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { JWT_SECRET } from '../config/env.js'
 import createError from 'http-errors'
 
@@ -14,7 +14,9 @@ export const verifyToken = (
       throw createError(401, 'not authorized')
     }
 
-    const verified = jwt.verify(token as string, JWT_SECRET)
+    const verified = jwt.verify(token as string, JWT_SECRET) as JwtPayload & {
+      id: string
+    }
     req.app.locals.user = verified.id
     next()
   } catch (error) {

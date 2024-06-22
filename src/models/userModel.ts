@@ -1,9 +1,18 @@
-import mongoose from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 const { Schema } = mongoose
 
-const userSchema = new Schema(
+interface IUserMethods {
+  matchPassword(pswd: string): boolean
+}
+interface IUser {
+  username: string
+  password: string
+}
+
+type UserModel = Model<IUser, object, IUserMethods>
+const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     username: {
       type: String,
@@ -23,22 +32,22 @@ const userSchema = new Schema(
   { timestamps: true }
 )
 
-async function hashPassword(next) {
+userSchema.pre('save', async function hashPassword(next) {
   try {
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
     next()
   } catch (e) {
-    next(e)
+    next(e as Error)
   }
-}
-async function compare(clientPassword: string) {
-  return await bcrypt.compare(clientPassword, this.password)
-}
+})
+userSchema.method(
+  'matchPassword',
+  async function compare(clientPassword: string) {
+    return await bcrypt.compare(clientPassword, this.password)
+  }
+)
 
-userSchema.pre('save', hashPassword)
-userSchema.method('matchPassword', compare)
-
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model<IUser, UserModel>('User', userSchema)
 
 export { User }

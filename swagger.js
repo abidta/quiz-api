@@ -7,15 +7,6 @@ const doc = {
     description: 'quiz Api documentation',
   },
   components: {
-    schemas: {
-      salesSchema: {
-        items: ['{item}'],
-        totalAmount: 'number',
-      },
-    },
-    parameters: {
-      q: {},
-    },
     securitySchemes: {
       access_token: {
         type: 'apiKey',
