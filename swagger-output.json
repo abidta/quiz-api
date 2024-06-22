@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "quiz API",
+    "description": "quiz Api documentation"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "localhost"
+    }
+  ],
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Auth routes"
+        ],
+        "description": "",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth routes"
+        ],
+        "description": "",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "salesSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "example": [
+              "{item}"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "totalAmount": {
+            "type": "string",
+            "example": "number"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "q": {}
+    },
+    "securitySchemes": {
+      "access_token": {
+        "type": "apiKey",
+        "name": "access_token",
+        "in": "header",
+        "description": "Access token required for authentication"
+      }
+    }
+  }
+}
