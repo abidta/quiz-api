@@ -190,29 +190,6 @@
     }
   },
   "components": {
-    "schemas": {
-      "salesSchema": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "example": [
-              "{item}"
-            ],
-            "items": {
-              "type": "string"
-            }
-          },
-          "totalAmount": {
-            "type": "string",
-            "example": "number"
-          }
-        }
-      }
-    },
-    "parameters": {
-      "q": {}
-    },
     "securitySchemes": {
       "access_token": {
         "type": "apiKey",
