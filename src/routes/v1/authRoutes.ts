@@ -1,10 +1,9 @@
 import express from 'express'
-import { login, logout } from '../../controllers/authControllers.js'
-import { verifyToken } from '../../middlewares/verifyToken.js'
+import { login, signup } from '../../controllers/authControllers.js'
 
 const router = express.Router()
 
 router.route('/login').post(login)
-router.route('/logout').post(verifyToken, logout)
+router.route('/signup').post(signup)
 
 export default router
