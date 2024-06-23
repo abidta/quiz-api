@@ -54,6 +54,7 @@ export const submitAnswer = async (
       },
       { completed: 0 }
     )
+    console.log(stats)
 
     const failed = quiz.questions.length - stats.completed
     const resultObj = {
@@ -73,7 +74,22 @@ export const submitAnswer = async (
     if (!quizResult) {
       await QuizResult.create(resultObj)
     } else {
-      await QuizResult.updateOne({ userId: userId }, resultObj)
+      const updateStatus = await QuizResult.updateOne(
+        { userId: userId, 'quizzes.quizId': quizId },
+        {
+          $set: { 'quizzes.$': resultObj.quizzes[0] },
+        }
+      )
+
+      // push new quiz result in to quizzes[]
+      if (!updateStatus.modifiedCount) {
+        await QuizResult.updateOne(
+          { userId: userId },
+          {
+            $push: { quizzes: resultObj.quizzes[0] },
+          }
+        )
+      }
     }
 
     res.json(new SuccessResponse('Your quiz submitted successfully '))
