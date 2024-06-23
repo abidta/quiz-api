@@ -190,21 +190,33 @@ all endpoint prefix with version no.eg. `/v1`
 ### Quiz Results
 
 - **Get Quiz Result**
-  - **Endpoint**: `GET /quiz/results`
-  - **Description**: Retrieves quiz results for the authenticated user.
+  - **Endpoint**: `GET /quiz/results?id`
+  - **Description**: Retrieves quiz results for the authenticated user.if no `id` provided in query. fetching all resultd
   - **Response**:
     ```json
-    {
-      "results": [
+    
+      [
         {
           "quizId": "string",
-          "scorePercentage": 100,
+          "scorePercentage": 80,
           "completed": 10,
           "failed": 2
         }
       ]
+    
+    ```
+
+- **Get Quiz Overall Score**
+  - **Endpoint**: `GET /quiz/results/overall_score`
+  - **Description**: Retrieves quiz overall score for the authenticated user.
+  - **Response**:
+    ```json
+    {
+      "totalScore":45.86
     }
     ```
+
+
 
 ### Quizzes
 
@@ -214,7 +226,7 @@ all endpoint prefix with version no.eg. `/v1`
   - **Response**:
     ```json
     {
-      "quizzes": [
+       [
         {
           "title": "string",
           "description": "string",
@@ -229,7 +241,8 @@ all endpoint prefix with version no.eg. `/v1`
               ]
             }
           ]
-        }
+        },
+    "_comment": "... another quiz objects"
       ]
     }
     ```
@@ -239,8 +252,8 @@ all endpoint prefix with version no.eg. `/v1`
   - **Description**: Retrieves a quiz by its ID.
   - **Response**:
     ```json
-    {
-      "quiz": {
+    
+       {
         "title": "string",
         "description": "string",
         "questions": [
@@ -255,7 +268,7 @@ all endpoint prefix with version no.eg. `/v1`
           }
         ]
       }
-    }
+  
     ```
 
 ## License
