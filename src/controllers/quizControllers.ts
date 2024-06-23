@@ -35,6 +35,7 @@ export const submitAnswer = async (
     if (!quiz) {
       throw createError(400, 'no quiz found')
     }
+    //for quiz stats
     const stats = questions.reduce(
       (acc, val) => {
         quiz.questions.forEach((question) => {
@@ -123,6 +124,32 @@ export const getQuizResult = async (
     }
     const quizResult = await QuizResult.find({ userId: req.app.locals.user })
     res.json(new SuccessResponse('your all quiz results', quizResult))
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getOverAllScore = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const quizResults = await QuizResult.findOne({
+      userId: req.app.locals.user,
+    }).lean()
+    if (!quizResults) {
+      throw createError(400)
+    }
+    const totalScore =
+      quizResults?.quizzes.reduce((acc, val) => {
+        return acc + val.scorePercentage
+      }, 0) / quizResults?.quizzes.length
+    res.json(
+      new SuccessResponse(`Your total quiz score is ${totalScore}`, {
+        totalScore: totalScore.toFixed(2),
+      })
+    )
   } catch (error) {
     next(error)
   }
