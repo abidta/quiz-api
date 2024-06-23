@@ -241,8 +241,8 @@ all endpoint prefix with version no.eg. `/v1`
               ]
             }
           ]
-        }
-    //... another quiz
+        },
+    "_comment": "... another quiz objects"
       ]
     }
     ```
