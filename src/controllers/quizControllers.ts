@@ -3,6 +3,7 @@ import { Quiz, QuizResult } from '../models/questionModel.js'
 import { SuccessResponse } from '../models/responseModel.js'
 import createError from 'http-errors'
 import { submitSchema } from '../models/zod.js'
+import { Types } from 'mongoose'
 
 export const createQuestion = async (
   req: Request,
@@ -117,12 +118,16 @@ export const getQuizResult = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params
+  const { id } = req.query
   try {
+    const [quizResult] = await QuizResult.find({ userId: req.app.locals.user })
     if (id) {
-      return res.json(new SuccessResponse('', await QuizResult.findById(id)))
+      const quiz = quizResult.quizzes.find(
+        (val) => val.quizId == (id as unknown as Types.ObjectId)
+      )
+
+      return res.json(new SuccessResponse('', quiz))
     }
-    const quizResult = await QuizResult.find({ userId: req.app.locals.user })
     res.json(new SuccessResponse('your all quiz results', quizResult))
   } catch (error) {
     next(error)
