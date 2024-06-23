@@ -198,13 +198,25 @@ all endpoint prefix with version no.eg. `/v1`
       "results": [
         {
           "quizId": "string",
-          "scorePercentage": 100,
+          "scorePercentage": 80,
           "completed": 10,
           "failed": 2
         }
       ]
     }
     ```
+
+- **Get Quiz Overall Score**
+  - **Endpoint**: `GET /quiz/results/overall_score`
+  - **Description**: Retrieves quiz overall score for the authenticated user.
+  - **Response**:
+    ```json
+    {
+      "totalScore":45.86
+    }
+    ```
+
+
 
 ### Quizzes
 
