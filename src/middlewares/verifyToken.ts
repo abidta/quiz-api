@@ -20,6 +20,7 @@ export const verifyToken = (
     req.app.locals.user = verified.id
     next()
   } catch (error) {
-    next(error)
+    const err = error as Error
+    next(createError(401, err?.message))
   }
 }
