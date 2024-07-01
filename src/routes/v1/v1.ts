@@ -15,7 +15,7 @@ router
   )
   .use(
     '/quiz',
-    /* #swagger.tags = ['Auth routes']
+    /* #swagger.tags = ['Quiz routes']
     #swagger.responses[500] */
     verifyToken,
     quizRoutes
