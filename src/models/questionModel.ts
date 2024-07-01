@@ -56,6 +56,7 @@ const userQuizResult = new Schema({
         type: Number,
         required: true,
       },
+      point: { type: Number, default: 0 },
       completed: { type: Number, default: 0 },
       failed: { type: Number, default: 0 },
     }),

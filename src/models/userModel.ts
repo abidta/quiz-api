@@ -9,6 +9,7 @@ interface IUserMethods {
 interface IUser {
   username: string
   password: string
+  totalPoint: number
 }
 
 type UserModel = Model<IUser, object, IUserMethods>
@@ -28,6 +29,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
         'password must include a lowercase, uppercase, number and special character',
       ],
     },
+    totalPoint: { type: Number, default: 0 },
   },
   { timestamps: true }
 )

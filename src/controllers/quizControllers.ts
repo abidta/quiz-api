@@ -4,6 +4,8 @@ import { SuccessResponse } from '../models/responseModel.js'
 import createError from 'http-errors'
 import { submitSchema } from '../models/zod.js'
 import { Types } from 'mongoose'
+import { POINTS } from '../config/constants.js'
+import { pointUpdate } from '../services/rankServices.js'
 
 export const createQuestion = async (
   req: Request,
@@ -57,6 +59,9 @@ export const submitAnswer = async (
     console.log(stats)
 
     const failed = quiz.questions.length - stats.completed
+    const point = stats.completed * POINTS.COMPLETED - failed * POINTS.FAILED
+    console.log(point, 'point')
+
     const resultObj = {
       userId: userId,
       quizzes: [
@@ -65,6 +70,7 @@ export const submitAnswer = async (
           completed: stats.completed,
           failed: failed,
           scorePercentage: (stats.completed / quiz.questions.length) * 100,
+          point: point,
         },
       ],
     }
@@ -91,8 +97,10 @@ export const submitAnswer = async (
         )
       }
     }
-
-    res.json(new SuccessResponse('Your quiz submitted successfully '))
+    await pointUpdate(userId)
+    res.json(
+      new SuccessResponse('Your quiz submitted successfully ', resultObj)
+    )
   } catch (error) {
     next(error)
   }
