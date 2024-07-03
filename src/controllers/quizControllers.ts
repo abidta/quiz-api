@@ -74,8 +74,8 @@ export const submitAnswer = async (
         },
       ],
     }
-    const quizResult = await QuizResult.find({ userId: userId })
-    console.log(quizResult)
+    const quizResult = await QuizResult.findOne({ userId: userId })
+    console.log(quizResult, 'quiz result')
 
     if (!quizResult) {
       await QuizResult.create(resultObj)

@@ -10,7 +10,7 @@ export const getYourRank = async (
   try {
     const userId = req.app.locals.user
     const points = await User.find({}, 'totalPoint', {
-      sort: { totalPoint: 1 },
+      sort: { totalPoint: 'desc' },
     })
     const rank = points.findIndex((val) => val.id === userId) + 1
     res.json(new SuccessResponse(`Your rank is ${rank}`, { rank }))
@@ -26,8 +26,8 @@ export const getRankList = async (
 ) => {
   try {
     const rankList = await User.find({}, '-password', {
-      sort: { totalPoint: 1 },
-    })
+      sort: { totalPoint: 'desc' },
+    }).lean()
     console.log(rankList)
     res.json(new SuccessResponse('', rankList))
   } catch (error) {
